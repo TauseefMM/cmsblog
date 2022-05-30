@@ -13,15 +13,18 @@
             <!-- Blog Entries Column -->
             <div class="col-md-8">
                 <?php 
-                        $query = "SELECT * FROM posts";
+                        if(isset($_GET['category'])){
+                            $show_post_by_cat_id = $_GET['category'];
+                        }
+                        $query = "SELECT * FROM posts WHERE post_category_id = {$show_post_by_cat_id}";
                         $select_all_post_query = mysqli_query($connection,$query);
                         while($row = mysqli_fetch_assoc($select_all_post_query)){
                             $post_id = $row['post_id'];                            
-                            $post_title = $row['post_title'];                            
+                            $post_title = $row['post_title'];                             
                             $post_author = $row['post_author'];
                             $post_date = $row['post_date'];                            
                             $post_image = $row['post_image'];
-                            $post_content = substr($row['post_content'],0,250);
+                            $post_content = $row['post_content'];
                  ?>
                     <h1 class="page-header">
                         Page Heading

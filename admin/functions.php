@@ -1,4 +1,19 @@
 <?php
+//***************************************************//
+//            General Function
+//***************************************************//
+function confirmQuery($result){
+    global $connection;
+    if(!$result){
+        die("QUERY FAILED . " . mysqli_error($connection));
+    }
+}
+
+//***************************************************//
+//            Categories Crud Operation
+//***************************************************//
+
+
 //insert data into a categories table
 function insert_categories(){
     global $connection;
