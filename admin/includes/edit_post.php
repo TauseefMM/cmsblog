@@ -47,7 +47,7 @@
             }
         }
         
-        echo $query = "UPDATE `posts` SET `post_category_id`={$post_category_id},`post_title`='{$post_title}',`post_author`='{$post_author}',`post_date`=now(),`post_image`='{$post_image}',`post_content`='{$post_content}',`post_tags`='{$post_tags}',`post_status`='{$post_status}' WHERE post_id = {$edit_post_id} ";
+        $query = "UPDATE `posts` SET `post_category_id`={$post_category_id},`post_title`='{$post_title}',`post_author`='{$post_author}',`post_date`=now(),`post_image`='{$post_image}',`post_content`='{$post_content}',`post_tags`='{$post_tags}',`post_status`='{$post_status}' WHERE post_id = {$edit_post_id} ";
         $update_post_record_by_id = mysqli_query($connection,query);
         confirmQuery($update_post_record_by_id);
     }

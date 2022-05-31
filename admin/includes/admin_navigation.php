@@ -20,7 +20,7 @@
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                            <a href="../includes/logout.php"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
                         </li>
                     </ul>
                 </li>
@@ -54,15 +54,15 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#user_dropdown"><i class="fa fa-fw fa-arrows-v"></i> Users <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="user_dropdown" class="collapse">
                             <li>
-                                <a href="#">View All Users</a>
+                                <a href="users.php">View All Users</a>
                             </li>
                             <li>
-                                <a href="#">Add Users</a>
+                                <a href="users.php?source=add_user">Add Users</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a href="blank-page.html"><i class="fa fa-fw fa-dashboard"></i> Profile </a>
+                        <a href="includes/logout.php"><i class="fa fa-fw fa-dashboard"></i> Profile </a>
                     </li>
                    
                 </ul>
