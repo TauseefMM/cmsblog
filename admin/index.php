@@ -4,6 +4,23 @@
     <?php include("includes/admin_navigation.php"); ?>
         <div id="page-wrapper">
             <div class="container-fluid">
+<!--
+               SELECT
+    *,COUNT(post_id) AS Total_post,COUNT(comment_id) AS Total_comment,
+	  SUM(CASE WHEN pst.post_status = 'draft' THEN 1 ELSE 0 END) AS Draft,
+    SUM(CASE WHEN pst.post_status = 'published' THEN 1 ELSE 0 END) AS published,
+	  SUM(CASE WHEN cmts.comment_status = 'Approved' THEN 1 ELSE 0 END) AS Approved,
+	  SUM(CASE WHEN cmts.comment_status = 'Unapproved' THEN 1 ELSE 0 END) AS Unapproved,
+	  SUM(CASE WHEN cat.cat_title= 'Javascript' THEN 1 ELSE 0 END) AS Javascript,
+		SUM(CASE WHEN cat.cat_title= 'PHP' THEN 1 ELSE 0 END) AS PHP
+FROM
+	posts pst
+	JOIN categories cat ON cat.cat_id = pst.post_category_id
+	JOIN comments cmts ON cmts.comment_post_id = pst.post_id
+-->
+	
+	
+	
                 <!-- Page Heading -->
                 <div class="row">
                     <div class="col-lg-12">
@@ -131,6 +148,10 @@
                      $draft_post_count_query = mysqli_query($connection,$query);
                      $total_draft_post = mysqli_num_rows($draft_post_count_query);
                     
+                     $query = "SELECT * FROM posts WHERE post_status = 'published' ";
+                     $published_post_count_query = mysqli_query($connection,$query);
+                     $total_published_post = mysqli_num_rows($published_post_count_query);
+                    
                      $query = "SELECT * FROM comments WHERE comment_status = 'unapproved' ";
                      $unapproved_comment_count_query= mysqli_query($connection,$query);
                      $total_unapproved_comments = mysqli_num_rows($unapproved_comment_count_query);
@@ -147,9 +168,9 @@
                         var data = google.visualization.arrayToDataTable([
                             ['Data','Count'],
                           <?php
-                          $bar_chart_title = ['Active Posts', 'Draft Posts', 'Comments', 'Pending Comments','Users','Subscriber' ,'Categories'];
-                          $bar_chart_value = [$total_post,$total_draft_post,$total_comments,$total_unapproved_comments,$total_users,$total_Subscribers,$total_categories]; 
-                          for($i = 0; $i < 7; $i++){
+                          $bar_chart_title = ['Active Posts', 'Published Posts', 'Draft Posts', 'Comments', 'Pending Comments','Users','Subscriber' ,'Categories'];
+                          $bar_chart_value = [$total_post,$total_published_post,$total_draft_post,$total_comments,$total_unapproved_comments,$total_users,$total_Subscribers,$total_categories]; 
+                          for($i = 0; $i < 8; $i++){
                               echo "['{$bar_chart_title[$i]}'" . "," . "{$bar_chart_value[$i]}],";
                           }?>]);
 

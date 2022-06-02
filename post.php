@@ -43,8 +43,6 @@
                     <img class="img-responsive" src="images/<?php echo $post_image; ?>" alt="">
                     <hr>
                     <p><?php echo $post_content; ?></p>
-                    <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
-
                     <hr>
                         <?php } ?>
                
@@ -55,15 +53,16 @@
                                 $comment_author = $_POST['comment_author'];
                                 $comment_email  = $_POST['comment_email'];
                                 $comment_content= $_POST['comment_content'];
-                                
-                                $query = "INSERT INTO `comments`(`comment_post_id`, `comment_author`, `comment_email`, `comment_content`, `comment_status`, `comment_date`) VALUES ({$comment_post_id},'{$comment_author}','{$comment_email}','{$comment_content}','Unapprove',now())";
-                                
-                                $comment_on_post_query = mysqli_query($connection,$query);
-//                                confirmQuery($comment_on_post_query);
-                                
-                                $query = "UPDATE posts SET post_comment_count = post_comment_count + 1 WHERE post_id = $comment_post_id ";
-                                $update_comment_count = mysqli_query($connection,$query);
-                                //confirmQuery($update_comment_count);
+                                if(!empty($comment_author) && !empty($comment_email) && !empty($comment_content)){
+                                    $query = "INSERT INTO `comments`(`comment_post_id`, `comment_author`, `comment_email`, `comment_content`, `comment_status`, `comment_date`) VALUES ({$comment_post_id},'{$comment_author}','{$comment_email}','{$comment_content}','Unapprove',now())";
+
+                                    $comment_on_post_query = mysqli_query($connection,$query);
+    //                                confirmQuery($comment_on_post_query);
+
+                                    $query = "UPDATE posts SET post_comment_count = post_comment_count + 1 WHERE post_id = $comment_post_id ";
+                                    $update_comment_count = mysqli_query($connection,$query);
+                                    //confirmQuery($update_comment_count);
+                                }
                             }
                     ?>
                 <!-- Comments Form -->

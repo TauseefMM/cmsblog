@@ -22,18 +22,17 @@
 
 //  update post record 
 
-    if(isset($_GET['update_post'])){
+    if(isset($_POST['update_post'])){
         $post_category_id = $_POST['post_category_id'];                                           
         $post_title = $_POST['post_title'];                                    
         $post_author = $_POST['post_author'];
-        $post_date = $_POST['post_date'];
+        $post_date = date('d-m-y');
         
         $post_image = $_FILES['post_image']['name'];        
         $post_image_temp = $_FILES['post_image']['tmp_name'];
         
         $post_content = $_POST['post_content'];
         $post_tags = $_POST['post_tags'];
-        $post_comment_count = $_POST['post_comment_count'];
         $post_status = $_POST['post_status'];
         
         move_uploaded_file($post_image_temp,"../images/{$post_image}");
@@ -47,9 +46,10 @@
             }
         }
         
-        $query = "UPDATE `posts` SET `post_category_id`={$post_category_id},`post_title`='{$post_title}',`post_author`='{$post_author}',`post_date`=now(),`post_image`='{$post_image}',`post_content`='{$post_content}',`post_tags`='{$post_tags}',`post_status`='{$post_status}' WHERE post_id = {$edit_post_id} ";
-        $update_post_record_by_id = mysqli_query($connection,query);
+         $query = "UPDATE `posts` SET `post_category_id`={$post_category_id},`post_title`='{$post_title}',`post_author`='{$post_author}',`post_date`= now(),`post_image`='{$post_image}',`post_content`='{$post_content}',`post_tags`='{$post_tags}',`post_status`='{$post_status}' WHERE `post_id` = {$edit_post_id} ";
+        $update_post_record_by_id = mysqli_query($connection,$query); 
         confirmQuery($update_post_record_by_id);
+        echo "<p class='bg-success'>Post Updated : <a href = '../post.php?p_id={$edit_post_id}'>View Post</a>|<a href = 'posts.php'>Edit More Posts</a></p>";
     }
 ?>  
      <form action="" method="post" enctype="multipart/form-data">    
@@ -88,9 +88,14 @@
      <div class="form-group">
          <label for="post_status">Post Status</label>
          <select name="post_status" id="" class="form-control">
-             <option value="draft">Post Status</option>
-             <option value="published">Published</option>
-             <option value="draft">Draft</option>
+             <option value="<?php echo $post_status; ?>"><?php echo $post_status; ?></option>
+             <?php
+                 if($post_status == 'Draft'){
+                     echo "<option value='Published'>Published</option>";
+                 }else{
+                    echo "<option value='Draft'>Draft</option>"; 
+                 }
+             ?>
          </select>
       </div>
        <div class="form-group">
@@ -98,15 +103,15 @@
       </div>
        <div class="form-group">
          <label for="post_image">Post Image</label>
-          <input type="file"  name="post_image">
+          <input type="file"  name="post_image" class="form-control">
       </div>
       <div class="form-group">
          <label for="post_tags">Post Tags</label>
           <input type="text" class="form-control" name="post_tags" value="<?php echo $post_tags ?>">
       </div>
       <div class="form-group">
-         <label for="post_content">Post Content</label>
-         <textarea class="form-control "name="post_content" id="" cols="30" rows="10" ><?php echo $post_content ?></textarea>
+         <label for="summernote">Post Content</label>
+         <textarea name="post_content" id="summernote"><?php echo $post_content ?></textarea>
       </div>
       <div class="form-group">
           <input class="btn btn-primary" type="submit" name="update_post" value="update Post">

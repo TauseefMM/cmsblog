@@ -21,7 +21,8 @@
         $create_user_query = mysqli_query($connection,$query);
         
         confirmQuery($create_user_query);
-        header("Location: users.php");
+        echo "User Created: " . " " . "<a href='users.php'>View Users </a>";
+//        header("Location: users.php");
     }
 ?> 
 <form action="" method="post" enctype="multipart/form-data">
