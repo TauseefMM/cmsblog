@@ -23,8 +23,9 @@
                 $db_user_email = $row['user_email'];
                 $db_user_image = $row['user_image'];
                 $db_user_role = $row['user_role'];
+                 $salt = $row['randSalt']; 
         }
-        
+                $password = crypt($password,$db_user_password);
         if($username === $db_username && $password === $db_user_password){
             $_SESSION['username'] = $db_username;            
             $_SESSION['firstname'] = $db_user_firstname;

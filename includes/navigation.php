@@ -23,8 +23,8 @@
                             echo "<li><a href ='category.php?category={$cat_id}'> {$cat_title} </a ></li>";
                         }
                     ?>
-<!--                    <li><a href="#">About</a></li>                   -->
                     <li><a href="admin">Admin</a></li>
+                    <li><a href="registration.php">Registration</a></li> 
                     <?php
                          if(isset($_SESSION['user_role'])){
                              if(isset($_GET['p_id'])){

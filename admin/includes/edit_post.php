@@ -4,21 +4,21 @@
     if(isset($_GET['p_id'])){
         $edit_post_id = $_GET['p_id'];
     }
-     $query = "SELECT * FROM posts WHERE post_id = {$edit_post_id} ";
-            $edit_post_record = mysqli_query($connection,$query);
+    $query = "SELECT * FROM posts WHERE post_id = {$edit_post_id} ";
+    $edit_post_record = mysqli_query($connection,$query);
 
-            while($row = mysqli_fetch_assoc($edit_post_record)){
-                $post_id = $row['post_id'];
-                $post_category_id = $row['post_category_id'];                                           
-                $post_title = $row['post_title'];                                    
-                $post_author = $row['post_author'];
-                $post_date = $row['post_date'];
-                $post_image = $row['post_image'];
-                $post_content = $row['post_content'];
-                $post_tags = $row['post_tags'];
-                $post_comment_count = $row['post_comment_count'];
-                $post_status = $row['post_status'];
-            }
+    while($row = mysqli_fetch_assoc($edit_post_record)){
+        $post_id = $row['post_id'];
+        $post_category_id = $row['post_category_id'];                                           
+        $post_title = $row['post_title'];                                    
+        $post_author = $row['post_author'];
+        $post_date = $row['post_date'];
+        $post_image = $row['post_image'];
+        $post_content = $row['post_content'];
+        $post_tags = $row['post_tags'];
+        $post_comment_count = $row['post_comment_count'];
+        $post_status = $row['post_status'];
+    }
 
 //  update post record 
 
@@ -31,7 +31,7 @@
         $post_image = $_FILES['post_image']['name'];        
         $post_image_temp = $_FILES['post_image']['tmp_name'];
         
-        $post_content = $_POST['post_content'];
+        $post_content = mysqli_real_escape_string($connection,$_POST['post_content']); 
         $post_tags = $_POST['post_tags'];
         $post_status = $_POST['post_status'];
         
@@ -46,7 +46,7 @@
             }
         }
         
-         $query = "UPDATE `posts` SET `post_category_id`={$post_category_id},`post_title`='{$post_title}',`post_author`='{$post_author}',`post_date`= now(),`post_image`='{$post_image}',`post_content`='{$post_content}',`post_tags`='{$post_tags}',`post_status`='{$post_status}' WHERE `post_id` = {$edit_post_id} ";
+        $query = "UPDATE `posts` SET `post_category_id`={$post_category_id},`post_title`='{$post_title}',`post_author`='{$post_author}',`post_date`= now(),`post_image`='{$post_image}',`post_content`='{$post_content}',`post_tags`='{$post_tags}',`post_status`='{$post_status}' WHERE `post_id` = {$edit_post_id} ";
         $update_post_record_by_id = mysqli_query($connection,$query); 
         confirmQuery($update_post_record_by_id);
         echo "<p class='bg-success'>Post Updated : <a href = '../post.php?p_id={$edit_post_id}'>View Post</a>|<a href = 'posts.php'>Edit More Posts</a></p>";

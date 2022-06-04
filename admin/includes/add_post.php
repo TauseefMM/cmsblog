@@ -9,15 +9,15 @@
         $post_image_temp = $_FILES['post_image']['tmp_name'];
 
         
-        $post_content = mysqli_real_escape_string($connection,$_POST['post_content']); 
+        $post_content = strip_tags($_POST['post_content']); 
         $post_tags = $_POST['post_tags'];
 //        $post_comment_count = 2;
         $post_status = $_POST['post_status'];
         
         move_uploaded_file($post_image_temp,"../images/{$post_image}");
         
-       echo  $query = " INSERT INTO `posts`(`post_category_id`, `post_title`, `post_author`, `post_date`, `post_image`, `post_content`, `post_tags`, `post_status`) VALUES ({$post_category_id},'{$post_title}','{$post_author}',now(),'{$post_image}','{$post_content}','{$post_tags}','{$post_status}') ";
-        
+        $query = " INSERT INTO `posts`(`post_category_id`, `post_title`, `post_author`, `post_date`, `post_image`, `post_content`, `post_tags`, `post_status`) VALUES ({$post_category_id},'{$post_title}','{$post_author}',now(),'{$post_image}','{$post_content}','{$post_tags}','{$post_status}') ";
+       
         $create_post_query = mysqli_query($connection,$query);
         
         $last_insert_post_id = mysqli_insert_id($connection);

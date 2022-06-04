@@ -14,16 +14,20 @@
             <div class="col-md-8">
                 <?php 
                 if(isset($_GET['p_id'])){
-                    $view_post_id = $_GET['p_id'];
-                }
-                        $query = "SELECT * FROM posts WHERE post_id = {$view_post_id}";
-                        $select_all_post_query = mysqli_query($connection,$query);
-                        while($row = mysqli_fetch_assoc($select_all_post_query)){
-                            $post_title = $row['post_title'];                            
-                            $post_author = $row['post_author'];
-                            $post_date = $row['post_date'];                            
-                            $post_image = $row['post_image'];
-                            $post_content = $row['post_content'];
+                   $view_post_id = $_GET['p_id'];
+                  echo  $query = "UPDATE posts SET post_views_count = post_views_count + 1 WHERE post_id = {$view_post_id}";
+                    $post_views_count = mysqli_query($connection,$query);
+                    if(!$post_views_count){
+                        die("QUERY FAILED : " . mysqli_error($connection) .' '. mysqli_errno($connection));
+                    }
+                    $query = "SELECT * FROM posts WHERE post_id = {$view_post_id}";
+                    $select_all_post_query = mysqli_query($connection,$query);
+                    while($row = mysqli_fetch_assoc($select_all_post_query)){
+                        $post_title = $row['post_title'];                            
+                        $post_author = $row['post_author'];
+                        $post_date = $row['post_date'];                            
+                        $post_image = $row['post_image'];
+                        $post_content = $row['post_content'];
                   
                  ?>
                     <h1 class="page-header">
@@ -44,26 +48,29 @@
                     <hr>
                     <p><?php echo $post_content; ?></p>
                     <hr>
-                        <?php } ?>
+                    <?php } ?>
                
                 <!-- Blog Comments -->
                     <?php 
-                            if(isset($_POST['create_comment'])){
-                                $comment_post_id = $_GET['p_id'];
-                                $comment_author = $_POST['comment_author'];
-                                $comment_email  = $_POST['comment_email'];
-                                $comment_content= $_POST['comment_content'];
-                                if(!empty($comment_author) && !empty($comment_email) && !empty($comment_content)){
-                                    $query = "INSERT INTO `comments`(`comment_post_id`, `comment_author`, `comment_email`, `comment_content`, `comment_status`, `comment_date`) VALUES ({$comment_post_id},'{$comment_author}','{$comment_email}','{$comment_content}','Unapprove',now())";
+                        if(isset($_POST['create_comment'])){
+                            $comment_post_id = $_GET['p_id'];
+                            $comment_author = $_POST['comment_author'];
+                            $comment_email  = $_POST['comment_email'];
+                            $comment_content= $_POST['comment_content'];
+                            if(!empty($comment_author) && !empty($comment_email) && !empty($comment_content)){
+                                $query = "INSERT INTO `comments`(`comment_post_id`, `comment_author`, `comment_email`, `comment_content`, `comment_status`, `comment_date`) VALUES ({$comment_post_id},'{$comment_author}','{$comment_email}','{$comment_content}','Unapprove',now())";
 
-                                    $comment_on_post_query = mysqli_query($connection,$query);
-    //                                confirmQuery($comment_on_post_query);
+                                $comment_on_post_query = mysqli_query($connection,$query);
+//                                confirmQuery($comment_on_post_query);
 
-                                    $query = "UPDATE posts SET post_comment_count = post_comment_count + 1 WHERE post_id = $comment_post_id ";
-                                    $update_comment_count = mysqli_query($connection,$query);
-                                    //confirmQuery($update_comment_count);
-                                }
+                                $query = "UPDATE posts SET post_comment_count = post_comment_count + 1 WHERE post_id = $comment_post_id ";
+                                $update_comment_count = mysqli_query($connection,$query);
+                                //confirmQuery($update_comment_count);
+                            }else{
+                                $message = "All Field Are Required.";
+                                echo "<script type='text/javascript'>alert('$message');</script>";
                             }
+                        }
                     ?>
                 <!-- Comments Form -->
                 <div class="well">
@@ -91,7 +98,6 @@
                 <?php
                         $query = "SELECT * FROM comments WHERE comment_post_id = {$view_post_id} AND comment_status = 'approved' ORDER BY comment_id DESC ";
                         $show_all_comment_on_post = mysqli_query($connection,$query);
-
                         while($row = mysqli_fetch_assoc($show_all_comment_on_post)){
                             $comment_date = $row['comment_date'];                                           
                             $comment_author = $row['comment_author'];                                    
@@ -109,20 +115,15 @@
                                 <?php echo $comment_content ?>
                             </div>
                         </div>
-                            
-                    <?php }  ?>
-               
-
-
+                    <?php } }else{
+                    header("Location: index.php");
+                } ?>
             </div>
-
             <!-- Blog Sidebar Widgets Column -->
             <?php include("includes/sidebar.php"); ?>            
 
         </div>
         <!-- /.row -->
-
         <hr>
-
         <!-- Footer -->
     <?php include("includes/footer.php"); ?>

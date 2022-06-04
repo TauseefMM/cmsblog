@@ -8,16 +8,32 @@
             $username = $_POST['username'];
             $email    = $_POST['email'];
             $password = $_POST['password'];
-            
-            $username = mysqli_real_escape_string($connection,$username);         
-            $password = mysqli_real_escape_string($connection,$password);
-            $email = mysqli_real_escape_string($connection,$email);
-            
-            $query = "SELECT randSalt FROM users";
-            $get_randsalt_query = mysqli_query($connection,$query);
-            
-            
+            if(!empty($username) && !empty($email) && !empty($password)){ 
+                $username = mysqli_real_escape_string($connection,$username);         
+                $password = mysqli_real_escape_string($connection,$password);
+                $email = mysqli_real_escape_string($connection,$email);
 
+                $query = "SELECT randSalt FROM users";
+                $get_randsalt_query = mysqli_query($connection,$query);
+                if(!$get_randsalt_query){
+                    die("QUERY FAILED : " . mysqli_erorr($connection) . ' ' . mysqli_errorno($connection)); 
+                }
+                
+                $row = mysqli_fetch_array($get_randsalt_query);
+                $salt = $row['randSalt']; 
+                $password = crypt($password,$salt);
+                $query = "INSERT INTO `users`(`username`, `user_password`, `user_email`, `user_role`)";
+                $query .= "VALUES ('{$username}','{$password}','{$email}','Subscriber') ";
+                $create_registration_query = mysqli_query($connection,$query);
+                if(!$get_randsalt_query){
+                    die("QUERY FAILED : " . mysqli_erorr($connection) . ' ' . mysqli_errorno($connection)); 
+                }
+                $message = "Your Registration Has Been Submitted";
+            }else{
+                $message = "Fields Cannot be Empty..";
+            }
+        }else{
+                $message = "";
         }
 
     ?>
@@ -29,6 +45,7 @@
                         <div class="form-wrap">
                         <h1>Register</h1>
                             <form role="form" action="registration.php" method="post" id="login-form" autocomplete="off">
+                               <h6 class="text-center"> <?php echo $message; ?></h6>
                                 <div class="form-group">
                                     <label for="username" class="sr-only">username</label>
                                     <input type="text" name="username" id="username" class="form-control" placeholder="Enter Desired Username">

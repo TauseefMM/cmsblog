@@ -33,12 +33,21 @@
         $user_password = $_POST['user_password'];
         
 //        move_uploaded_file($post_image_temp,"../images/{$post_image}");
+        $query = "SELECT randSalt FROM users";
+        $get_randsalt_query = mysqli_query($connection,$query);
+        if(!$get_randsalt_query){
+            die("QUERY FAILED : " . mysqli_erorr($connection) . ' ' . mysqli_errorno($connection)); 
+        }
+
+        $row = mysqli_fetch_array($get_randsalt_query);
+        $salt = $row['randSalt']; 
+        $hashed_password = crypt($user_password,$salt);
         
-        $query = "UPDATE `users` SET `username`='{$username}',`user_password`='{$user_password}',`user_firstname`='{$user_firstname}',`user_lastname`='{$user_lastname}',`user_email`='{$user_email}',`user_role`='{$user_role}' WHERE user_id = {$get_update_user_id } ";
+        $query = "UPDATE `users` SET `username`='{$username}',`user_password`='{$hashed_password}',`user_firstname`='{$user_firstname}',`user_lastname`='{$user_lastname}',`user_email`='{$user_email}',`user_role`='{$user_role}' WHERE user_id = {$get_update_user_id } ";
         $update_user_record_by_id_query = mysqli_query($connection,$query);
         
         confirmQuery($update_user_record_by_id_query);
-         header("Location: users.php");
+        header("Location: users.php");
     }
 ?> 
 <form action="" method="post" enctype="multipart/form-data">
