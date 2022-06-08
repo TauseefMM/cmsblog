@@ -15,11 +15,11 @@
                 <?php 
                 if(isset($_GET['p_id'])){
                    $view_post_id = $_GET['p_id'];
-                  echo  $query = "UPDATE posts SET post_views_count = post_views_count + 1 WHERE post_id = {$view_post_id}";
-                    $post_views_count = mysqli_query($connection,$query);
-                    if(!$post_views_count){
-                        die("QUERY FAILED : " . mysqli_error($connection) .' '. mysqli_errno($connection));
-                    }
+                   // $query = "UPDATE posts SET post_views_count = post_views_count + 1 WHERE post_id = {$view_post_id}";
+                   //  $post_views_count = mysqli_query($connection,$query);
+                   //  if(!$post_views_count){
+                   //      die("QUERY FAILED : " . mysqli_error($connection) .' '. mysqli_errno($connection));
+                   //  }
                     $query = "SELECT * FROM posts WHERE post_id = {$view_post_id}";
                     $select_all_post_query = mysqli_query($connection,$query);
                     while($row = mysqli_fetch_assoc($select_all_post_query)){
@@ -61,11 +61,11 @@
                                 $query = "INSERT INTO `comments`(`comment_post_id`, `comment_author`, `comment_email`, `comment_content`, `comment_status`, `comment_date`) VALUES ({$comment_post_id},'{$comment_author}','{$comment_email}','{$comment_content}','Unapprove',now())";
 
                                 $comment_on_post_query = mysqli_query($connection,$query);
-//                                confirmQuery($comment_on_post_query);
+                                // confirmQuery($comment_on_post_query);
 
-                                $query = "UPDATE posts SET post_comment_count = post_comment_count + 1 WHERE post_id = $comment_post_id ";
-                                $update_comment_count = mysqli_query($connection,$query);
-                                //confirmQuery($update_comment_count);
+                                // $query = "UPDATE posts SET post_comment_count = post_comment_count + 1 WHERE post_id = $comment_post_id ";
+                                // $update_comment_count = mysqli_query($connection,$query);
+                                // //confirmQuery($update_comment_count);
                             }else{
                                 $message = "All Field Are Required.";
                                 echo "<script type='text/javascript'>alert('$message');</script>";

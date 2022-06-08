@@ -24,9 +24,19 @@ $(document).ready(function() {
     
     var div_box = "<div id='load-screen'><div id='loading'></div></div>"; 
     $("body").prepend(div_box);
-    $('#load-screen').delay(700).fadeOut(600,function(){
+    $('#load-screen').delay(200).fadeOut(200,function(){
         $(this).remove();                                     
     });
+
+
 });
 
+function load_user_online(){
+   $.get("functions.php?onlineusers=result",function(data){
+         $(".useronline").text(data);
+   });
+}
+setInterval(function(){
+   load_user_online();
+},500);
 

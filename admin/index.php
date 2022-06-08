@@ -4,22 +4,20 @@
     <?php include("includes/admin_navigation.php"); ?>
         <div id="page-wrapper">
             <div class="container-fluid">
-<!--
-               SELECT
-    *,COUNT(post_id) AS Total_post,COUNT(comment_id) AS Total_comment,
-	  SUM(CASE WHEN pst.post_status = 'draft' THEN 1 ELSE 0 END) AS Draft,
-    SUM(CASE WHEN pst.post_status = 'published' THEN 1 ELSE 0 END) AS published,
-	  SUM(CASE WHEN cmts.comment_status = 'Approved' THEN 1 ELSE 0 END) AS Approved,
-	  SUM(CASE WHEN cmts.comment_status = 'Unapproved' THEN 1 ELSE 0 END) AS Unapproved,
-	  SUM(CASE WHEN cat.cat_title= 'Javascript' THEN 1 ELSE 0 END) AS Javascript,
-		SUM(CASE WHEN cat.cat_title= 'PHP' THEN 1 ELSE 0 END) AS PHP
-FROM
-	posts pst
-	JOIN categories cat ON cat.cat_id = pst.post_category_id
-	JOIN comments cmts ON cmts.comment_post_id = pst.post_id
--->
-	
-	
+                <!--
+                               SELECT
+                    *,COUNT(post_id) AS Total_post,COUNT(comment_id) AS Total_comment,
+                	  SUM(CASE WHEN pst.post_status = 'draft' THEN 1 ELSE 0 END) AS Draft,
+                      SUM(CASE WHEN pst.post_status = 'published' THEN 1 ELSE 0 END) AS published,
+                	  SUM(CASE WHEN cmts.comment_status = 'Approved' THEN 1 ELSE 0 END) AS Approved,
+                	  SUM(CASE WHEN cmts.comment_status = 'Unapproved' THEN 1 ELSE 0 END) AS Unapproved,
+                	  SUM(CASE WHEN cat.cat_title= 'Javascript' THEN 1 ELSE 0 END) AS Javascript,
+                		SUM(CASE WHEN cat.cat_title= 'PHP' THEN 1 ELSE 0 END) AS PHP
+                FROM
+                	posts pst
+                	JOIN categories cat ON cat.cat_id = pst.post_category_id
+                	JOIN comments cmts ON cmts.comment_post_id = pst.post_id
+                -->
 	
                 <!-- Page Heading -->
                 <div class="row">

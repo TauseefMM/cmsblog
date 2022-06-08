@@ -11,6 +11,8 @@
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
+                <!-- <li><a href="">User Online : <?php //echo user_online(); ?></a></li> -->
+                 <li><a href="">User Online : <span class="useronline"></span><?php echo user_online(); ?></a></li>
                 <li><a href="../index.php">Home Site</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?php echo $_SESSION['username']; ?> <b class="caret"></b></a>

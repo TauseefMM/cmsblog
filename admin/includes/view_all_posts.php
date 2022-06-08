@@ -14,25 +14,25 @@
                     confirmQuery($update_to_Draft_status);
                 break;
                 case 'Delete':
-                    $query = "SELECT posts WHERE post_id = {$postValueId} ";
+                    $query = "DELETE FROM posts WHERE post_id = {$postValueId} ";
                     $delete_posts = mysqli_query($connection,$query);
                     confirmQuery($delete_posts);
                 break;
                 case 'Clone':
-                $query = "SELECT * FROM posts WHERE post_id = {$postValueId} ";
-                $post_record = mysqli_query($connection,$query);
-                while($row = mysqli_fetch_assoc($post_record)){
-                    $post_id = $row['post_id'];
-                    $post_category_id = $row['post_category_id'];                                           
-                    $post_title = $row['post_title'];                                    
-                    $post_author = $row['post_author'];
-                    $post_date = $row['post_date'];
-                    $post_image = $row['post_image'];
-                    $post_content = $row['post_content'];
-                    $post_tags = $row['post_tags'];
-                    $post_comment_count = $row['post_comment_count'];
-                    $post_status = $row['post_status'];
-                }
+                    $query = "SELECT * FROM posts WHERE post_id = {$postValueId} ";
+                    $post_record = mysqli_query($connection,$query);
+                    while($row = mysqli_fetch_assoc($post_record)){
+                        $post_id = $row['post_id'];
+                        $post_category_id = $row['post_category_id'];                                           
+                        $post_title = $row['post_title'];                                    
+                        $post_author = $row['post_author'];
+                        $post_date = $row['post_date'];
+                        $post_image = $row['post_image'];
+                        $post_content = $row['post_content'];
+                        $post_tags = $row['post_tags'];
+                        $post_comment_count = $row['post_comment_count'];
+                        $post_status = $row['post_status'];
+                    }
                     $query = " INSERT INTO `posts`(`post_category_id`, `post_title`, `post_author`, `post_date`, `post_image`, `post_content`, `post_tags`, `post_status`) VALUES ({$post_category_id},'{$post_title}','{$post_author}',now(),'{$post_image}','{$post_content}','{$post_tags}','{$post_status}') ";
                     $create_clone_post_query = mysqli_query($connection,$query);
                     confirmQuery($create_clone_post_query);               
@@ -108,8 +108,16 @@
                     echo "<td>{$cat_title}</td>";                                       
                     echo "<td>{$post_status}</td>";                                       
                     echo "<td><img width='100' src='../images/{$post_image}'></td>";                                       
-                    echo "<td>{$post_tags}</td>";                                       
-                    echo "<td>{$post_comment_count}</td>";                                        
+                    echo "<td>{$post_tags}</td>"; 
+                    $query = "SELECT * FROM comments WHERE comment_post_id = {$post_id}";
+                    $send_comment_query = mysqli_query($connection,$query);
+
+                    $row = mysqli_fetch_array($send_comment_query);
+                    $comment_id = $row['comment_id'];
+                    $count_comments = mysqli_num_rows($send_comment_query);
+
+
+                    echo "<td><a href='post_comment.php?comment_post_id={$post_id}'>{$count_comments}</a></td>";                            
                     echo "<td>{$post_date}</td>";                    
                     echo "<td>{$post_views_count}</td>"; 
                     echo "<td><a href='../post.php?p_id={$post_id}'>View Post</a></td>";

@@ -13,7 +13,26 @@
             <!-- Blog Entries Column -->
             <div class="col-md-8">
                 <?php 
-                        $query = "SELECT * FROM posts";
+                $per_page = 5;
+                if(isset($_GET['page'])){
+                    $page_index = $_GET['page'];
+                }else{                    
+                    $page_index = "";
+                }
+                $post_page_index = 0 ;
+                if($page_index == "" || $page_index == 1){
+                    $post_page_index = 0;
+                }else{ 
+                    $post_page_index = ($page_index * $per_page) - $per_page;
+                }
+
+                $query = "SELECT * FROM posts";
+                $count_post_query = mysqli_query($connection,$query);
+                $total_post = mysqli_num_rows($count_post_query);
+
+                $count = ceil($total_post / $per_page);
+
+                        $query = "SELECT * FROM posts LIMIT $post_page_index ,$per_page ";
                         $select_all_post_query = mysqli_query($connection,$query);
                         while($row = mysqli_fetch_assoc($select_all_post_query)){
                             $post_id = $row['post_id'];                            
@@ -53,8 +72,21 @@
             
         </div>
         <!-- /.row -->
-
+             <div class="container text-center">
+                    <ul class="pagination">
+                        <?php
+                        for($i =1; $i <=  $count; $i++){
+                            if($i == $page_index)
+                            {
+                                echo "<li class='active'><a href='index.php?page={$i}' class='active'>{$i}</li>";
+                            }else{
+                                echo "<li><a href='index.php?page={$i}'>{$i}</li>";
+                            }
+                        }
+                        ?>
+                    </ul>
+            </div>
         <hr>
-
+        
         <!-- Footer -->
     <?php include("includes/footer.php"); ?>

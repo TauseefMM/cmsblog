@@ -15,6 +15,7 @@
         $user_password = $_POST['user_password'];
         
 //        move_uploaded_file($post_image_temp,"../images/{$post_image}");
+        $password = password_hash($user_password, PASSWORD_BCRYPT,array('cost' => 12));
         
         $query = "INSERT INTO `users`(`username`, `user_password`, `user_firstname`,`user_lastname`, `user_email`, `user_role`)";
         $query .= "VALUES ('{$username}','{$user_password}','{$user_firstname}','{$user_lastname}','{$user_email}','{$user_role}') ";
@@ -48,7 +49,7 @@
 		<input type="email" class="form-control" name="user_email"> </div>
 	<div class="form-group">
 		<label for="user_password">Password</label>
-		<input type="password" class="form-control" name="user_password"> </div>
+		<input type="password" class="form-control" name="user_password" autocomplete="off"> </div>
 	<div class="form-group">
 		<input class="btn btn-primary" type="submit" name="create_user" value="Add User"> </div>
 </form>
