@@ -4,32 +4,32 @@
             $bulk_option = $_POST['bulk_options'];
             switch($bulk_option){
                 case 'Admin':
-                    $query = "UPDATE users SET user_role = '{$bulk_option}' WHERE user_id = {$postValueId} ";
+                    $query = "UPDATE users SET user_role = '{escape($bulk_option)}' WHERE user_id = {escape($postValueId)} ";
                     $update_to_Admin_role = mysqli_query($connection,$query);
                     confirmQuery($update_to_Admin_role);
                 break;
                 case 'Subscriber':
-                    $query = "UPDATE users SET user_role = '{$bulk_option}' WHERE user_id = {$postValueId} ";
+                    $query = "UPDATE users SET user_role = '{escape($bulk_option)}' WHERE user_id = {escape($postValueId)} ";
                     $update_to_subscriber_role = mysqli_query($connection,$query);
                     confirmQuery($update_to_subscriber_role);
                 break;
                 case 'Delete':
-                    $query = "DELETE FROM users WHERE user_id = {$postValueId} ";
+                    $query = "DELETE FROM users WHERE user_id = {escape($postValueId)} ";
                     $delete_user = mysqli_query($connection,$query);
                     confirmQuery($delete_user);
                 break;
                 case 'Clone':
-                    $query = "SELECT * FROM users WHERE user_id = {$postValueId} ";
+                    $query = "SELECT * FROM users WHERE user_id = {escape($postValueId)} ";
                     $user_record = mysqli_query($connection,$query);
                     while($row = mysqli_fetch_assoc($user_record)){
-                        $user_id = $row['user_id'];
-                        $username = $row['username'];                                           
-                        $user_password = $row['user_password'];
-                        $user_firstname = $row['user_firstname'];                                    
-                        $user_lastname = $row['user_lastname'];
-                        $user_email = $row['user_email'];
-                        $user_image = $row['user_image'];
-                        $user_role = $row['user_role'];
+                        $user_id = escape($row['user_id']);
+                        $username = escape($row['username']);                                           
+                        $user_password = escape($row['user_password']);
+                        $user_firstname = escape($row['user_firstname']);                                    
+                        $user_lastname = escape($row['user_lastname']);
+                        $user_email = escape($row['user_email']);
+                        $user_image = escape($row['user_image']);
+                        $user_role = escape($row['user_role']);
                 
                     }
                     $query = "INSERT INTO `users`(`username`, `user_password`, `user_firstname`,`user_lastname`, `user_email`, `user_role`)";
@@ -78,14 +78,14 @@
             $show_all_users = mysqli_query($connection,$query);
 
             while($row = mysqli_fetch_assoc($show_all_users)){
-                $user_id = $row['user_id'];
-                $username = $row['username'];                                           
-                $user_password = $row['user_password'];
-                $user_firstname = $row['user_firstname'];                                    
-                $user_lastname = $row['user_lastname'];
-                $user_email = $row['user_email'];
-                $user_image = $row['user_image'];
-                $user_role = $row['user_role'];
+                $user_id = escape($row['user_id']);
+                $username = escape($row['username']);                                           
+                $user_password = escape($row['user_password']);
+                $user_firstname = escape($row['user_firstname']);                                    
+                $user_lastname = escape($row['user_lastname']);
+                $user_email = escape($row['user_email']);
+                $user_image = escape($row['user_image']);
+                $user_role = escape($row['user_role']);
                 
                 echo "<tr>";
                  ?>
@@ -110,15 +110,19 @@
 
 <?php 
 if(isset($_GET['delete_user_by_id'])){
-    $delete_user_by_id = $_GET['delete_user_by_id'];
-    $query = "DELETE FROM users WHERE user_id = {$delete_user_by_id} "; 
-    $delete_user_data = mysqli_query($connection,$query);
-    confirmQuery($delete_user_data);
-    header("Location: users.php");
+    if(isset($_SESSION['user_role'])){
+        if($_SESSION['user_role'] == 'Admin'){
+            $delete_user_by_id = mysqli_real_escape_string($_GET['delete_user_by_id']);
+            $query = "DELETE FROM users WHERE user_id = {$delete_user_by_id} "; 
+            $delete_user_data = mysqli_query($connection,$query);
+            confirmQuery($delete_user_data);
+            header("Location: users.php");
+        }
+    }
 }
 
 if(isset($_GET['change_to_admin'])){
-    $role_change_to_admin = $_GET['change_to_admin'];
+    $role_change_to_admin = escape($_GET['change_to_admin']);
     $query = "UPDATE users SET user_role = 'Admin' WHERE user_id = {$role_change_to_admin} "; 
     $change_role_to_admin = mysqli_query($connection,$query);
     confirmQuery($change_role_to_admin);
@@ -126,7 +130,7 @@ if(isset($_GET['change_to_admin'])){
 }
 
 if(isset($_GET['change_to_sub'])){
-    $role_change_to_sub = $_GET['change_to_sub'];
+    $role_change_to_sub = escape($_GET['change_to_sub']);
     $query = "UPDATE users SET user_role = 'Subscriber' WHERE user_id = {$role_change_to_sub} "; 
     $change_role_to_sub = mysqli_query($connection,$query);
     confirmQuery($change_role_to_sub);

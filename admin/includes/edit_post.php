@@ -11,7 +11,7 @@
         $post_id = $row['post_id'];
         $post_category_id = $row['post_category_id'];                                           
         $post_title = $row['post_title'];                                    
-        $post_author = $row['post_author'];
+        $post_user = $row['post_user'];
         $post_date = $row['post_date'];
         $post_image = $row['post_image'];
         $post_content = $row['post_content'];
@@ -25,7 +25,7 @@
     if(isset($_POST['update_post'])){
         $post_category_id = $_POST['post_category_id'];                                           
         $post_title = $_POST['post_title'];                                    
-        $post_author = $_POST['post_author'];
+        $post_user = $_POST['post_user'];
         $post_date = date('d-m-y');
         
         $post_image = $_FILES['post_image']['name'];        
@@ -46,7 +46,7 @@
             }
         }
         
-        $query = "UPDATE `posts` SET `post_category_id`={$post_category_id},`post_title`='{$post_title}',`post_author`='{$post_author}',`post_date`= now(),`post_image`='{$post_image}',`post_content`='{$post_content}',`post_tags`='{$post_tags}',`post_status`='{$post_status}' WHERE `post_id` = {$edit_post_id} ";
+        $query = "UPDATE `posts` SET `post_category_id`={$post_category_id},`post_title`='{$post_title}',`post_user`='{$post_user}',`post_date`= now(),`post_image`='{$post_image}',`post_content`='{$post_content}',`post_tags`='{$post_tags}',`post_status`='{$post_status}' WHERE `post_id` = {$edit_post_id} "; 
         $update_post_record_by_id = mysqli_query($connection,$query); 
         confirmQuery($update_post_record_by_id);
         echo "<p class='bg-success'>Post Updated : <a href = '../post.php?p_id={$edit_post_id}'>View Post</a>|<a href = 'posts.php'>Edit More Posts</a></p>";
@@ -73,15 +73,16 @@
       </div>
       <div class="form-group">
            <label for="users">Users</label>
-           <select name="post_author" id="" class="form-control" >
+           <select name="post_user" id="" class="form-control" >
  <?php
+            echo "<option value='{$post_user}'>{$post_user}</option>";
             $users_query = "SELECT * FROM users";
             $select_users = mysqli_query($connection,$users_query);
             confirmQuery($select_users);
             while($row = mysqli_fetch_assoc($select_users)) {
             $user_id = $row['user_id'];
             $username = $row['username'];
-                echo "<option value='{$user_id}'>{$username}</option>";
+                echo "<option value='{$username}'>{$username}</option>";
             } ?>
             </select>
       </div>
