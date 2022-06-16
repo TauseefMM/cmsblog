@@ -8,7 +8,7 @@ function redirect($location){
    exit;
 }
 
-function ifItsMethodb($method = null){
+function ifItIsMethod($method = null){
      if($_SERVER['REQUEST_METHOD'] == strtoupper($method)){
         return true;
      }
@@ -199,8 +199,8 @@ function register_user($username,$email,$password){
 
 function  login_user($username,$password){
     global $connection;
-    $username = trim($username);
-    $password = trim($password);
+    echo $username = trim($username);
+    echo $password = trim($password);
     $username = escape($username);       
     $password = escape($password);
     $query = "SELECT * FROM users WHERE username = '{$username}' "; 
@@ -214,17 +214,17 @@ function  login_user($username,$password){
         $db_user_email = $row['user_email'];
         $db_user_image = $row['user_image'];
         $db_user_role = $row['user_role'];
+        if(password_verify($password,$db_user_password)){
+             $_SESSION['username'] = $db_username;            
+             $_SESSION['firstname'] = $db_user_firstname;
+             $_SESSION['lastname'] = $db_user_lastname;
+             $_SESSION['user_role'] = $db_user_role;
+             header("Location: /repo/cmsblog/admin");
+        } else{
+             return false;
+        }
     }
-    // $password = crypt($password,$db_user_password);
-    if(password_verify($password,$db_user_password)){
-         $_SESSION['username'] = $db_username;            
-         $_SESSION['firstname'] = $db_user_firstname;
-         $_SESSION['lastname'] = $db_user_lastname;
-         $_SESSION['user_role'] = $db_user_role;
-         header("Location: ../admin");
-    } else{
-         header("Location: ../index.php");
-    }
+        return true;
 }
 
 ?>

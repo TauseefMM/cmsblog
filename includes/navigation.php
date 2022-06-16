@@ -34,17 +34,24 @@
                             echo "<li class='{$category_class}'><a href ='/repo/cmsblog/category/{$cat_id}'> {$cat_title} </a ></li>";
                         }
                     ?>
-                    <li><a href="/repo/cmsblog/admin">Admin</a></li>
+                    <?php if(isLoggedIn()):?>
+                        echo "<li><a href="/repo/cmsblog/admin">Admin</a></li>";
+                        echo "<li><a href="/repo/cmsblog/includes/logout.php">Logout</a></li>";
+                    <?php else: ?>
+                        echo "<li><a href="/repo/cmsblog/login">Login</a></li>";
+                    <?php endif; ?> 
+                    
+                    
                     <li class = "<?php echo $registration_class;  ?>"><a href="/repo/cmsblog/registration">Registration</a></li> 
                     <?php
                          if(isset($_SESSION['user_role'])){
                              if(isset($_GET['p_id'])){
-                                 $the_post_id = $_GET['p_id'];
-                                 echo " <li><a href='/repo/cmsblog/admin/posts.php?source=edit_post&p_id={$the_post_id}'>Edit Post</a></li>";
+                                $the_post_id = $_GET['p_id'];
+                                echo"<li><a href='/repo/cmsblog/admin/posts.php?source=edit_post&p_id={$the_post_id}'>Edit Post</a></li>";
                              }
                          }
                     ?>
-                   <li><a href="/repo/cmsblog/contact">Contact</a></li> 
+                   <li><a href="/repo/cmsblog/contact">Contact</a></li>  
 
                 </ul>
             </div>

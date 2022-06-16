@@ -1,3 +1,17 @@
+<?php 
+    checkIfUserLoggedInAndRedirect('/repo/cmsblog/admin');
+    if(ifItIsMethod('post')){
+        if(isset($_POST['login'])){
+            if(isset($_POST['username']) && isset($_POST['password'])){
+                echo $_POST['username'];
+                login_user($_POST['username'],$_POST['password']);
+            }else{
+                redirect('repo/cmsblog/login');
+            }
+        }
+    }
+ ?>
+
 <div class="col-md-4">
    <!-- Blog Search Well -->
     <div class="well">
@@ -22,7 +36,7 @@
             <a href="includes/logout.php" class="btn btn-primary">Logout</a>
         <?php else: ?>
              <h4>Login</h4>
-            <form action="includes/login.php" method="post">
+            <form method="post">
                  <div class="form-group">
                      <input type="text" class="form-control" name="username" placeholder="Enter Username"> 
                  </div>
@@ -32,6 +46,9 @@
                         <button class="btn btn-primary" type="submit" name="login">Submit
                     </button>
                     </span>
+                 </div>
+                 <div class="form-group">
+                     <a href="forgot.php?forgot=<?php echo uniqid(true); ?>">Forgot Password</a>
                  </div>
              </form>
         <?php endif; ?>
