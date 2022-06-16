@@ -26,9 +26,19 @@
                     $post_page_index = ($page_index * $per_page) - $per_page;
                 }
 
-                $query = "SELECT * FROM posts";
+                   if(isset($_SESSION['user_role']) && $_SESSION['user_role'] == 'Admin'){
+                         $query = "SELECT * FROM posts";
+                   }else{
+                         $query = "SELECT * FROM posts WHERE post_status = 'Published' ";
+                   }
+                      
+
+                // $query = "SELECT * FROM posts WHERE post_status = 'Published'";
                 $count_post_query = mysqli_query($connection,$query);
                 $total_post = mysqli_num_rows($count_post_query);
+                if($total_post < 1){
+                    echo "<h1 class='text-center   '>NO POSTS AVAIABLE </h1>";
+                }else{
 
                 $count = ceil($total_post / $per_page);
 
@@ -42,26 +52,24 @@
                             $post_image = $row['post_image'];
                             $post_content = substr($row['post_content'],0,400);
                             $post_status = $row['post_status'];
-                            
-                            if($post_status == 'Published'){
-                              
+                                                          
                  ?>
             
                     <!-- First Blog Post -->
                     <h2>
-                        <a href="post.php?p_id=<?php echo $post_id; ?>"><?php echo $post_title; ?></a>
+                        <a href="post/<?php echo $post_id; ?>"><?php echo $post_title; ?></a>
                     </h2>
                     <p class="lead">
                         by <a href="author_posts.php?author=<?php echo $post_user; ?>"><?php echo $post_user; ?></a>
                     </p>
                     <p><span class="glyphicon glyphicon-time"></span> Posted on <?php echo $post_date; ?></p>
                     <hr>
-                    <a href="post.php?p_id=<?php echo $post_id; ?>">
+                    <a href="post/<?php echo $post_id; ?>">
                         <img class="img-responsive" src="images/<?php echo $post_image; ?>" alt="">
                     </a>
                     <hr>
                     <p><?php echo $post_content; ?></p>
-                    <a class="btn btn-primary" href="post.php?p_id=<?php echo $post_id; ?>">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+                    <a class="btn btn-primary" href="post/<?php echo $post_id; ?>">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
 
                     <hr>
                         <?php } } ?>

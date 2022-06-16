@@ -38,12 +38,7 @@
                                         <i class="fa fa-file-text fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                    <?php 
-                                         $query = "SELECT * FROM posts";
-                                         $post_count_query= mysqli_query($connection,$query);
-                                         $total_post = mysqli_num_rows($post_count_query);
-                                         echo "<div class='huge'>{$total_post}</div>";
-                                    ?>
+                                        <div class='huge'><?php echo $total_post = recordCount('posts'); ?></div>";
                                         <div>Posts</div>
                                     </div>
                                 </div>
@@ -65,12 +60,7 @@
                                         <i class="fa fa-comments fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                    <?php 
-                                         $query = "SELECT * FROM comments";
-                                         $comment_count_query= mysqli_query($connection,$query);
-                                         $total_comments = mysqli_num_rows($comment_count_query);
-                                         echo "<div class='huge'>{$total_comments}</div>";
-                                    ?>
+                                       <div class='huge'><?php echo $total_comments = recordCount('comments'); ?></div>";
                                       <div>Comments</div>
                                     </div>
                                 </div>
@@ -92,13 +82,8 @@
                                         <i class="fa fa-user fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                    <?php 
-                                         $query = "SELECT * FROM users";
-                                         $user_count_query= mysqli_query($connection,$query);
-                                         $total_users = mysqli_num_rows($user_count_query);
-                                         echo "<div class='huge'>{$total_users}</div>";
-                                    ?>
-                                        <div> Users</div>
+                                       <div class='huge'><?php echo $total_users = recordCount('users'); ?></div>";
+                                       <div> Users</div>
                                     </div>
                                 </div>
                             </div>
@@ -119,12 +104,7 @@
                                         <i class="fa fa-list fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                       <?php 
-                                             $query = "SELECT * FROM categories";
-                                             $categories_count_query= mysqli_query($connection,$query);
-                                             $total_categories = mysqli_num_rows($categories_count_query);
-                                             echo "<div class='huge'>{$total_categories}</div>";
-                                        ?>
+                                       <div class='huge'><?php echo $total_categories = recordCount('categories'); ?></div>";
                                        <div>Categories</div>
                                     </div>
                                 </div>
@@ -141,22 +121,14 @@
                 </div>
                                     <!-- /.row -->
                 <div class="row">
-                  <?php
-                     $query = "SELECT * FROM posts WHERE post_status = 'draft' ";
-                     $draft_post_count_query = mysqli_query($connection,$query);
-                     $total_draft_post = mysqli_num_rows($draft_post_count_query);
+                  <?php 
+                      $total_draft_post = checkStatus('posts','post_status','draft');
                     
-                     $query = "SELECT * FROM posts WHERE post_status = 'published' ";
-                     $published_post_count_query = mysqli_query($connection,$query);
-                     $total_published_post = mysqli_num_rows($published_post_count_query);
+                      $total_published_post = checkStatus('posts','post_status','published');
                     
-                     $query = "SELECT * FROM comments WHERE comment_status = 'unapproved' ";
-                     $unapproved_comment_count_query= mysqli_query($connection,$query);
-                     $total_unapproved_comments = mysqli_num_rows($unapproved_comment_count_query);
+                      $total_unapproved_comments = checkStatus('comments','comment_status','unapproved');
                     
-                     $query = "SELECT * FROM users WHERE user_role = 'Subscriber' ";
-                     $Subscriber_count_query= mysqli_query($connection,$query);
-                     $total_Subscribers = mysqli_num_rows($Subscriber_count_query);
+                      $total_Subscribers = checkUserRole('users','user_role','Subscriber');
                    ?>
                    <script type="text/javascript">
                       google.charts.load('current', {'packages':['bar']});

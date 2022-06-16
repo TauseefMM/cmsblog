@@ -17,19 +17,26 @@
 
     <!-- Blog login Well -->
     <div class="well">
-        <h4>Login</h4>
-        <form action="includes/login.php" method="post">
-             <div class="form-group">
-                 <input type="text" class="form-control" name="username" placeholder="Enter Username"> 
-             </div>
-            <div class="input-group">
-                <input type="password" name="password" class="form-control" placeholder="Enter Password">
-                <span class="input-group-btn">
-                    <button class="btn btn-primary" type="submit" name="login">Submit
-                </button>
-                </span>
-             </div>
-         </form>
+        <?php if(isset($_SESSION['user_role'])): ?>
+            <h4>Logged In as <?php echo $_SESSION['username'] ?></h4>
+            <a href="includes/logout.php" class="btn btn-primary">Logout</a>
+        <?php else: ?>
+             <h4>Login</h4>
+            <form action="includes/login.php" method="post">
+                 <div class="form-group">
+                     <input type="text" class="form-control" name="username" placeholder="Enter Username"> 
+                 </div>
+                <div class="input-group">
+                    <input type="password" name="password" class="form-control" placeholder="Enter Password">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="submit" name="login">Submit
+                    </button>
+                    </span>
+                 </div>
+             </form>
+        <?php endif; ?>
+       
+        
         <!-- /.input-group -->
     </div>
 
@@ -49,7 +56,7 @@
                         while($row = mysqli_fetch_assoc($select_all_cat_sidebar )){
                             $cat_title = $row['cat_title'];    
                             $cat_id = $row['cat_id'];
-                            echo "<li><a href ='category.php?category={$cat_id}'> {$cat_title} </a ></li>";
+                            echo "<li><a href ='/repo/cmsblog/category/{$cat_id}'> {$cat_title} </a ></li>";
                         }
                     ?>
                 </ul>
