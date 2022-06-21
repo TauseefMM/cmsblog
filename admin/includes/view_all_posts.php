@@ -148,7 +148,7 @@
 </form>
 
 <?php 
-if(isset($_POST['variable']['delete_post_id'])){
+if(isset($_POST['delete_post_id'])){
     $delete_post_id = $_GET['delete_post_id'];
     $query = "DELETE FROM posts WHERE post_id = {$delete_post_id} "; 
     $delete_post_data = mysqli_query($connection,$query);
